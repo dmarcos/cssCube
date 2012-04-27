@@ -12,38 +12,33 @@ Cube.prototype.render = function(elementId) {
     thisCube.toggle();
   }
 
+  // Building cube
   this.cube = $('<div></div>');
   this.cube.addClass('cube');
 
   this.leftFace = $('<div></div>');
   this.leftFace.addClass('face');
   this.leftFace.addClass('leftFace');
-  this.leftFace.click(toggle);
 
   this.bottomFace = $('<div></div>');
   this.bottomFace.addClass('face');
   this.bottomFace.addClass('bottomFace');
-  this.bottomFace.click(toggle);
 
   this.backFace = $('<div></div>');
   this.backFace.addClass('face');
   this.backFace.addClass('backFace');
-  this.backFace.click(toggle);
 
   this.frontFace = $('<div></div>');
   this.frontFace.addClass('face');
   this.frontFace.addClass('frontFace');
-  this.frontFace.click(toggle);
 
   this.rightFace = $('<div></div>');
   this.rightFace.addClass('face');
   this.rightFace.addClass('rightFace');
-  this.rightFace.click(toggle);
 
   this.topFace = $('<div></div>');
   this.topFace.addClass('face');
   this.topFace.addClass('topFace');
-  this.topFace.click(toggle);
 
   this.cube.append(this.leftFace);
   this.cube.append(this.bottomFace);
@@ -52,6 +47,14 @@ Cube.prototype.render = function(elementId) {
   this.cube.append(this.rightFace);
   this.cube.append(this.topFace);
   $('#' + elementId).append(this.cube);
+
+  // Attaches events
+  this.leftFace.click(toggle);
+  this.bottomFace.click(toggle);
+  this.backFace.click(toggle);
+  this.frontFace.click(toggle);
+  this.rightFace.click(toggle);
+  this.topFace.click(toggle);
 
   $(document).keydown(function(evt) {
     switch (evt.keyCode) {
@@ -75,7 +78,9 @@ Cube.prototype.render = function(elementId) {
         break;
     };
   }).bind('mousedown touchstart', function(event) {
-    var start = {
+    var start;
+    event = event.originalEvent.touches? event.originalEvent.touches[0] : event;
+    start = {
       x : event.pageX,
       y : event.pageY
     };
@@ -87,7 +92,7 @@ Cube.prototype.render = function(elementId) {
         if (!document.ontouchmove || !(event.originalEvent && event.originalEvent.touches.length > 1)) {
             event.preventDefault();
             // Get touch co-ords
-            event.originalEvent.touches ? event = event.originalEvent.touches[0] : null;
+            event = event.originalEvent.touches? event.originalEvent.touches[0] : event;
             thisCube.xRotation += event.pageX - start.x;
             thisCube.yRotation += event.pageY - start.y;
             thisCube.rotate(thisCube.yRotation , thisCube.xRotation);
@@ -144,7 +149,4 @@ Cube.prototype.open = function() {
   this.rightFace.removeClass('rightFaceClosed');
   thisCube.topFace.removeClass('topFaceClosed2');
   this.topFace.removeClass('topFaceClosed');
-  //setTimeout(function(){
-  //  thisCube.top.removeClass('topFolded2');
-  //},210);
 };
