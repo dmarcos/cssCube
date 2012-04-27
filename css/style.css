@@ -1,5 +1,8 @@
 #container{
-  width: 100%;
+  width: 1024px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 50px;
   -webkit-perspective: 2000px;
   -moz-perspective: 2000px;
   -ms-perspective: 2000px;
@@ -18,20 +21,6 @@
   -ms-transform-style: preserve-3d;
   -o-transform-style: preserve-3d;
   transform-style: preserve-3d;
-
-  -webkit-transition: -webkit-transform 200ms linear;
-  -moz-transition: -moz-transform 200ms linear;
-  -ms-transition: -ms-transform 200ms linear;
-  -o-transition: -o-transform 200ms linear;
-  transition: transform 200ms linear;
-}
-
-.showBackFace {
-  transform: rotateY(180deg) translateZ(128px);
-  -ms-transform: rotateY(180deg) translateZ(128px); /* IE 9 */
-  -webkit-transform: rotateY(180deg) translateZ(128px);/* Safari and Chrome */
-  -moz-transform: rotateY(180deg) translateZ(128px); /* Firefox */
-  -o-transform: rotateY(180deg) translateZ(128px); /* Opera */
 }
 
 .face {

@@ -1,5 +1,7 @@
 var Cube = function() {
   this.opened = true;
+  this.xRotation = 0;
+  this.yRotation = 0;
 };
 
 Cube.prototype.render = function(elementId) {
@@ -54,55 +56,62 @@ Cube.prototype.render = function(elementId) {
   $(document).keydown(function(evt) {
     switch (evt.keyCode) {
       case 37: // left
-        thisCube.showBackFace();
+        thisCube.rotate(0, 90);
         break;
       
       case 38: // up
-        thisCube.showFrontFace();
+        thisCube.rotate(270, 0);
         break;
       
       case 39: // right
-        thisCube.showFrontFace();
+        thisCube.rotate(0, 270);
         break;
       
       case 40: // down
-        thisCube.showBackFace();
+        thisCube.rotate(90, 0);
         break;
       
       default:
         break;
     };
-  }).bind('mousedown touchstart', function(evt) {
-    console.log("TOUCH START");
-    //delete mouse.last;
-    
-    //evt.originalEvent.touches ? evt = evt.originalEvent.touches[0] : null;
-    //mouse.start.x = evt.pageX;
-    //mouse.start.y = evt.pageY;
-    //$(document).bind('mousemove touchmove', function(event) {
+  }).bind('mousedown touchstart', function(event) {
+    var start = {
+      x : event.pageX,
+      y : event.pageY
+    };
+
+    var scaleFactor = document.ontouchmove? 4 : 1;
+
+    $(document).bind('mousemove touchmove', function(event) {
         // Only perform rotation if one touch or mouse (e.g. still scale with pinch and zoom)
-    //    if (!touch || !(event.originalEvent && event.originalEvent.touches.length > 1)) {
-    //        event.preventDefault();
+        if (!document.ontouchmove || !(event.originalEvent && event.originalEvent.touches.length > 1)) {
+            event.preventDefault();
             // Get touch co-ords
-    //        event.originalEvent.touches ? event = event.originalEvent.touches[0] : null;
-    //        $sphere.trigger('move-viewport', {x: event.pageX,y: event.pageY});
-    //    }
-    //});
+            event.originalEvent.touches ? event = event.originalEvent.touches[0] : null;
+            thisCube.xRotation += event.pageX - start.x;
+            thisCube.yRotation += event.pageY - start.y;
+            thisCube.rotate(thisCube.yRotation , thisCube.xRotation);
+            start = {
+              x : event.pageX,
+              y : event.pageY
+            };
+        }
+    });
     
-    //$(document).bind('mouseup touchend', function() {
-    //    $(document).unbind('mousemove touchmove');
-    //});
+    $(document).bind('mouseup touchend', function() {
+        $(document).unbind('mousemove touchmove');
+    });
   });
 
 };
 
-Cube.prototype.showBackFace = function() {
-  this.cube.addClass('showBackFace');
-}
-
-Cube.prototype.showFrontFace = function() {
-  this.cube.removeClass('showBackFace');
-}
+Cube.prototype.rotate = function(x, y) {
+  this.cube.css('transform', "rotateX(" + x + "deg) rotateY(" + y + "deg)");
+  this.cube.css('-ms-transform', "rotateX(" + x + "deg) rotateY(" + y + "deg)");
+  this.cube.css('-webkit-transform', "rotateX(" + x + "deg) rotateY(" + y + "deg)");
+  this.cube.css('-moz-transform', "rotateX(" + x + "deg) rotateY(" + y + "deg)");
+  this.cube.css('-o-transform', "rotateX(" + x + "deg) rotateY(" + y + "deg)");
+};
 
 Cube.prototype.toggle = function() {
   if (this.opened) {
