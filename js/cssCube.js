@@ -95,7 +95,7 @@ Cube.prototype.render = function(elementId) {
             // Get touch co-ords
             event = event.originalEvent.touches? event.originalEvent.touches[0] : event;
             thisCube.xRotation += (event.pageX - start.x) / scaleFactor;
-            thisCube.yRotation += (event.pageY - start.y) / scaleFactor;
+            thisCube.yRotation -= (event.pageY - start.y) / scaleFactor;
             thisCube.rotate(thisCube.yRotation , thisCube.xRotation);
             start = {
               x : event.pageX,
