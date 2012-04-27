@@ -90,7 +90,7 @@ Cube.prototype.render = function(elementId) {
 
     $(document).bind('mousemove touchmove', function(event) {
         // Only perform rotation if one touch or mouse (e.g. still scale with pinch and zoom)
-        if (!document.ontouchmove || !(event.originalEvent && event.originalEvent.touches.length > 1)) {
+        if (!event.originalEvent.touches || !(event.originalEvent && event.originalEvent.touches.length > 1)) {
             event.preventDefault();
             // Get touch co-ords
             event = event.originalEvent.touches? event.originalEvent.touches[0] : event;
