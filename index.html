@@ -28,11 +28,25 @@
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="js/jquery-1.7.1.min.js"><\/script>')</script>
+  <script src="js/Stats.js"></script>
   <script src="js/cssCube.js"></script>
   <script type="text/javascript">
   $(function() {
     var cssCube = new Cube();
+    var stats = new Stats();
+
     cssCube.render('container');
+
+    // Align top-left
+    stats.getDomElement().style.position = 'absolute';
+    stats.getDomElement().style.left = '0px';
+    stats.getDomElement().style.top = '0px';
+
+    document.body.appendChild( stats.getDomElement() );
+      setInterval( function () {
+      stats.update();
+    }, 1000 / 60 );
+
   });
   </script>
 
