@@ -79,13 +79,14 @@ Cube.prototype.render = function(elementId) {
     };
   }).bind('mousedown touchstart', function(event) {
     var start;
+    var scaleFactor = event.originalEvent.touches? 4 : 1;
+    
     event = event.originalEvent.touches? event.originalEvent.touches[0] : event;
     start = {
       x : event.pageX,
       y : event.pageY
     };
 
-    var scaleFactor = document.ontouchmove? 4 : 1;
 
     $(document).bind('mousemove touchmove', function(event) {
         // Only perform rotation if one touch or mouse (e.g. still scale with pinch and zoom)
@@ -93,8 +94,8 @@ Cube.prototype.render = function(elementId) {
             event.preventDefault();
             // Get touch co-ords
             event = event.originalEvent.touches? event.originalEvent.touches[0] : event;
-            thisCube.xRotation += event.pageX - start.x;
-            thisCube.yRotation += event.pageY - start.y;
+            thisCube.xRotation += (event.pageX - start.x) / scaleFactor;
+            thisCube.yRotation += (event.pageY - start.y) / scaleFactor;
             thisCube.rotate(thisCube.yRotation , thisCube.xRotation);
             start = {
               x : event.pageX,
